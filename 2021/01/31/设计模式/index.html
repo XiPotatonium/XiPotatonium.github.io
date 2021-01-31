@@ -20,28 +20,32 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Xi&#39;s Blog">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="常用的几个设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式">
+<meta property="og:url" content="http://example.com/2021/01/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/index.html">
 <meta property="og:site_name" content="Xi&#39;s Blog">
+<meta property="og:description" content="常用的几个设计模式">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-31T10:38:00.000Z">
+<meta property="article:modified_time" content="2021-01-31T10:42:45.218Z">
 <meta property="article:author" content="XiPotatonium">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/2021/01/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>Xi's Blog</title>
+  <title>设计模式 | Xi's Blog</title>
   
 
 
@@ -154,88 +158,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/31/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/favicon/logo.jpg">
-      <meta itemprop="name" content="XiPotatonium">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xi's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/31/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">排序算法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-01-31 18:38:11 / 修改时间：18:47:28" itemprop="dateCreated datePublished" datetime="2021-01-31T18:38:11+08:00">2021-01-31</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Computer-Science/Algorithm/" itemprop="url" rel="index"><span itemprop="name">Algorithm</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
 
     
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>一些比较重要的排序算法。<br>基于比较的排序的时间复杂度最优是$O(nlogn)$，而后面三个不基于比较的排序可以超越这个限制.</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/01/31/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -251,10 +177,9 @@
       <meta itemprop="name" content="Xi's Blog">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">设计模式</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          设计模式
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -287,175 +212,69 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>常用的几个设计模式</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/01/31/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
+        <p>常用的几个设计模式</p>
+<a id="more"></a>
+
+<h2 id="1-Singleton"><a href="#1-Singleton" class="headerlink" title="1 Singleton"></a>1 Singleton</h2><p>单例，一个类仅允许一个对象存在。例如一个虚拟机只有一个堆。</p>
+<h3 id="1-1-饿汉模式"><a href="#1-1-饿汉模式" class="headerlink" title="1.1 饿汉模式"></a>1.1 饿汉模式</h3><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Demo</span> &#123;</span></span><br><span class="line">    Demo _singleton;</span><br><span class="line">    Demo() &#123;&#125;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 直接用static的成员变量也可以</span></span><br><span class="line">    <span class="function">Demo&amp; <span class="title">singleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> _singleton;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>用语言初始化机制避免多线程多次构造对象的问题。只是在一开始就构造可能有点浪费？</p>
+<h3 id="1-2-懒汉模式"><a href="#1-2-懒汉模式" class="headerlink" title="1.2 懒汉模式"></a>1.2 懒汉模式</h3><p>用到再构造（Lazy initialization）。注意多线程同步。</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Demo</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">readonly</span> <span class="built_in">object</span> _lock = <span class="keyword">new</span> <span class="built_in">object</span>();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Demo _singleton;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Demo Singleton</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (_singleton == <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">lock</span> (_lock)</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">if</span> (_singleton == <span class="literal">null</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        _singleton = <span class="keyword">new</span> Demo();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> _singleton;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Demo</span>(<span class="params"></span>)</span> &#123; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="2-工厂模式"><a href="#2-工厂模式" class="headerlink" title="2 工厂模式"></a>2 工厂模式</h2><h3 id="2-1-工厂方法模式"><a href="#2-1-工厂方法模式" class="headerlink" title="2.1 工厂方法模式"></a>2.1 工厂方法模式</h3><p>有一个抽象工厂、一个抽象产品，一堆产品。一个具体工厂生产一个具体产品。</p>
+<p>这很OOP，符合开闭原则，用户只需要知道工厂，不需要知道具体产品是哪一个类。用的时候使用抽象产品（即只关心接口）</p>
+<p>缺点是每添加一个产品就要加一个工厂。</p>
+<h3 id="2-2-抽象工厂"><a href="#2-2-抽象工厂" class="headerlink" title="2.2 抽象工厂"></a>2.2 抽象工厂</h3><p>如果产品很多，特别是存在排列组合的情况，建议使用抽象工厂。</p>
+<p>抽象工厂一个工厂可以生产一类产品（可以是不同的方法生产不同的产品）。这样在新增类型的时候才需要新工厂。</p>
+<p>举个例子：</p>
+<ol>
+<li>有两类抽象产品。键盘和鼠标.</li>
+<li>抽象工厂，定义生产键盘和鼠标的接口</li>
+<li>有Win鼠标、键盘，Mac鼠标、键盘四种具体产品</li>
+<li>Mac工厂和Win工厂，实现抽象工厂，生产Mac和Win的键盘和鼠标</li>
+</ol>
+<h2 id="3-观察者模式"><a href="#3-观察者模式" class="headerlink" title="3 观察者模式"></a>3 观察者模式</h2><p>观察者注册回调，在事件发生时invoke回调，通知观察者。</p>
+<p>具体例子如MVVM的INotifyPropertyChanged</p>
+<h2 id="4-装饰器模式"><a href="#4-装饰器模式" class="headerlink" title="4 装饰器模式"></a>4 装饰器模式</h2><ol>
+<li>有接口IBase</li>
+<li>A实现了接口IBase</li>
+<li>装饰器Decorator实现了接口IBase，并且装饰器有一个局部变量A，装饰器选择性地将A的功能暴露，也可以修改、装饰A原有的功能，甚至增加新功能。</li>
+</ol>
+<p>它的使用范围类似继承。但是装饰器相比继承提供了更高的可定制性。</p>
+<p>在Java的系统库中</p>
+<ul>
+<li>InputStream是抽象构建角色（Component）</li>
+<li>ByteArrayInputStream、FileInputStream、StringBufferInputStream是具体构件角色(ConcreteComponent)</li>
+<li>由FilterInputStream、ObectInputStream是抽象装饰角色(Decorator)。它们实现了InputStream所规定的接口。</li>
+<li>BufferedInputStream、DataInputStream以及两个不常用到的类LineNumberInputStream、PushbackInputStream是具体装饰角色(ConcreteDecorator)。</li>
+</ul>
+
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/31/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/favicon/logo.jpg">
-      <meta itemprop="name" content="XiPotatonium">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xi's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/31/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/" class="post-title-link" itemprop="url">右值引用</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-01-31 17:24:24 / 修改时间：18:40:22" itemprop="dateCreated datePublished" datetime="2021-01-31T17:24:24+08:00">2021-01-31</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a>
-                </span>
-                  ，
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Computer-Science/Programming-Language/" itemprop="url" rel="index"><span itemprop="name">Programming Language</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>c++右值引用，universal reference，移动语义和完美转发</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/01/31/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/31/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/favicon/logo.jpg">
-      <meta itemprop="name" content="XiPotatonium">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xi's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/01/31/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2021-01-31 16:49:05 / 修改时间：17:17:16" itemprop="dateCreated datePublished" datetime="2021-01-31T16:49:05+08:00">2021-01-31</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>（备忘录）Hexo使用指南</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/01/31/hello-world/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/31/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/" rel="prev" title="右值引用">
+      <i class="fa fa-chevron-left"></i> 右值引用
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/01/31/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" rel="next" title="排序算法">
+      排序算法 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
@@ -508,6 +327,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Singleton"><span class="nav-number">1.</span> <span class="nav-text">1 Singleton</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-%E9%A5%BF%E6%B1%89%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 饿汉模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-%E6%87%92%E6%B1%89%E6%A8%A1%E5%BC%8F"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 懒汉模式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">2 工厂模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 工厂方法模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 抽象工厂</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">3 观察者模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.</span> <span class="nav-text">4 装饰器模式</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -630,59 +450,6 @@
   
 
   
-      
-
-<script>
-  if (typeof MathJax === 'undefined') {
-    window.MathJax = {
-      loader: {
-        source: {
-          '[tex]/amsCd': '[tex]/amscd',
-          '[tex]/AMScd': '[tex]/amscd'
-        }
-      },
-      tex: {
-        inlineMath: {'[+]': [['$', '$']]},
-        tags: 'ams'
-      },
-      options: {
-        renderActions: {
-          findScript: [10, doc => {
-            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-              const display = !!node.type.match(/; *mode=display/);
-              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-              const text = document.createTextNode('');
-              node.parentNode.replaceChild(text, node);
-              math.start = {node: text, delim: '', n: 0};
-              math.end = {node: text, delim: '', n: 0};
-              doc.math.push(math);
-            });
-          }, '', false],
-          insertedScript: [200, () => {
-            document.querySelectorAll('mjx-container').forEach(node => {
-              let target = node.parentNode;
-              if (target.nodeName.toLowerCase() === 'li') {
-                target.parentNode.classList.add('has-jax');
-              }
-            });
-          }, '', false]
-        }
-      }
-    };
-    (function () {
-      var script = document.createElement('script');
-      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-      script.defer = true;
-      document.head.appendChild(script);
-    })();
-  } else {
-    MathJax.startup.document.state(0);
-    MathJax.texReset();
-    MathJax.typeset();
-  }
-</script>
-
-    
 
   
 
