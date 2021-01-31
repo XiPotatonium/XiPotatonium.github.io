@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+  <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="c++右值引用，universal reference，移动语义和完美转发">
+<meta property="og:type" content="article">
+<meta property="og:title" content="右值引用">
+<meta property="og:url" content="http://example.com/2021/01/31/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/index.html">
+<meta property="og:site_name" content="Xi&#39;s Blog">
+<meta property="og:description" content="c++右值引用，universal reference，移动语义和完美转发">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-31T09:24:24.000Z">
+<meta property="article:modified_time" content="2021-01-31T09:29:53.356Z">
+<meta property="article:author" content="XiPotatonium">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/01/31/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>右值引用 | Xi's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xi's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/01/31/%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/favicon/logo.jpg">
+      <meta itemprop="name" content="XiPotatonium">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xi's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          右值引用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-01-31 17:24:24 / 修改时间：17:29:53" itemprop="dateCreated datePublished" datetime="2021-01-31T17:24:24+08:00">2021-01-31</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Programming-Language/" itemprop="url" rel="index"><span itemprop="name">Programming Language</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>c++右值引用，universal reference，移动语义和完美转发</p>
+<a id="more"></a>
+
+<h1 id="右值引用"><a href="#右值引用" class="headerlink" title="右值引用"></a>右值引用</h1><p>右值不同于左值，无法取地址，例如常量表达式的结果，某些返回值。<br>引用本质上就是指针。右值引用就是能被右值初始化的引用。</p>
+<ul>
+<li>相比于左值引用初始化后不能再改变，右值引用初始化后可以改变。</li>
+<li>右值引用能延长右值的生命周期，但是这不是c++11提出右值引用的关键（因为const左值引用也能被右值初始化）</li>
+</ul>
+<h2 id="移动语义"><a href="#移动语义" class="headerlink" title="移动语义"></a>移动语义</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// remove_reference_t&lt;_Ty&gt;会删除_Ty的引用属性</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> _<span class="title">Ty</span>&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">constexpr</span> <span class="keyword">remove_reference_t</span>&lt;_Ty&gt;&amp;&amp; <span class="title">move</span><span class="params">(_Ty&amp;&amp; _Arg)</span> <span class="keyword">noexcept</span> </span>&#123; </span><br><span class="line">    <span class="comment">// forward _Arg as movable</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;<span class="keyword">remove_reference_t</span>&lt;_Ty&gt;&amp;&amp;&gt;(_Arg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>为了解决大对象拷贝会消耗很长时间的问题。</p>
+<ol>
+<li><code>std::move</code>会将左值引用转化为右值引用</li>
+<li>转化的右值引用用于构造对象（需要定义右值构造和右值赋值），其实本质上右值引用和左值引用并没有任何区别，这么区分只是为了编译器可以清楚地知道是调用左值的构造还是右值的构造。如果你喜欢，甚至可以再右值构造里面实际上做复制，左值构造里面实际上做移动。</li>
+<li>为了实现移动语义，需要定义右值构造和右值赋值，因为我们的目的是减少拷贝时间，而传入的右值又是不应该再被使用的，所以我们可以直接把传入的参数的成员全部copy过来，并且需要将原先的成员全部变成默认值（特别是指针，因为析构可能会不小心把allocated的空间释放掉），这样就等于把原先的内容偷了过来。</li>
+</ol>
+<p><code>std::move</code>的作用就是告诉编译器，这个左值马上要消亡了（局部变量），当成右值来用</p>
+<h2 id="Universal-references"><a href="#Universal-references" class="headerlink" title="Universal references"></a>Universal references</h2><ul>
+<li><code>T&amp;&amp; &amp;&amp;</code>是右值引用</li>
+<li><code>T&amp; &amp;&amp;</code>是左值引用</li>
+<li><code>T&amp;&amp; &amp;</code>是左值引用</li>
+<li><code>T&amp; &amp;</code>是左值引用</li>
+</ul>
+<p>这在模板类和auto的自动推导中会用到。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(T&amp;&amp; param)</span></span>;  <span class="comment">// param is a universal reference</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">int</span> x = <span class="number">27</span>; </span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> cx = x;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span>&amp; rx = x;</span><br><span class="line"></span><br><span class="line">f(x);   <span class="comment">// x is lvalue, so T is int&amp;,</span></span><br><span class="line">        <span class="comment">// param&#x27;s type is also int&amp;</span></span><br><span class="line">f(cx);  <span class="comment">// cx is lvalue, so T is const int&amp;,</span></span><br><span class="line">        <span class="comment">// param&#x27;s type is also const int&amp;</span></span><br><span class="line">f(rx);  <span class="comment">// rx is lvalue, so T is const int&amp;,</span></span><br><span class="line">        <span class="comment">// param&#x27;s type is also const int&amp;</span></span><br><span class="line">f(<span class="number">27</span>);  <span class="comment">// 27 is rvalue, so T is int,</span></span><br><span class="line">        <span class="comment">// param&#x27;s type is therefore int&amp;&amp;</span></span><br></pre></td></tr></table></figure>
+<h2 id="完美转发"><a href="#完美转发" class="headerlink" title="完美转发"></a>完美转发</h2><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">A</span><span class="params">(<span class="string">&quot;abc&quot;</span>)</span></span>;</span><br><span class="line">    <span class="built_in">string</span>&amp;&amp; Rval = <span class="built_in">std</span>::move(A);</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">B</span><span class="params">(Rval)</span></span>;         <span class="comment">// this is a copy , not move.</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; A &lt;&lt; <span class="built_in">endl</span>;      <span class="comment">// output &quot;abc&quot;</span></span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">C</span><span class="params">(<span class="built_in">std</span>::forward&lt;<span class="built_in">string</span>&gt;(Rval))</span></span>;   <span class="comment">// move</span></span><br><span class="line">    <span class="built_in">cout</span> &lt;&lt; A &lt;&lt; <span class="built_in">endl</span>;      <span class="comment">// output &quot;&quot;</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面这段程序展现了右值引用的一个问题，<strong>右值引用变量是左值</strong>。这在函数中很成问题，假设有<code>f(T&amp;&amp; a)</code>，我在<code>f</code>中并不需要用到<code>a</code>，而是需要将它传给某个其他函数，例如右值构造。但是如果我们像demo的第四行这样直接调用，实际上调用的是左值构造。</p>
+<p>为了维持参数原来的特性，需要对参数进行完美的转发，使用<code>std::forward</code>来帮助实现完美转发。完美转发让左值还是左值，右值还是右值.</p>
+<p>注意<code>std::forward</code>是配合泛型使用的，上面demo仅用于展现右值引用变量其实是左值的问题，因为上面demo的情况我们其实可以用<code>std::move</code>将其变成右值引用。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> _<span class="title">Ty</span>&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">constexpr</span> _Ty&amp;&amp; <span class="title">forward</span><span class="params">(<span class="keyword">remove_reference_t</span>&lt;_Ty&gt;&amp; _Arg)</span> <span class="keyword">noexcept</span> </span>&#123; </span><br><span class="line">    <span class="comment">// forward an lvalue as either an lvalue or an rvalue</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;_Ty&amp;&amp;&gt;(_Arg);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> _<span class="title">Ty</span>&gt;</span></span><br><span class="line"><span class="function"><span class="keyword">constexpr</span> _Ty&amp;&amp; <span class="title">forward</span><span class="params">(<span class="keyword">remove_reference_t</span>&lt;_Ty&gt;&amp;&amp; _Arg)</span> <span class="keyword">noexcept</span> </span>&#123; </span><br><span class="line">    <span class="comment">// forward an rvalue as an rvalue</span></span><br><span class="line">    <span class="keyword">static_assert</span>(!is_lvalue_reference_v&lt;_Ty&gt;, <span class="string">&quot;bad forward call&quot;</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">static_cast</span>&lt;_Ty&amp;&amp;&gt;(_Arg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>为了实现完美转发，我们的函数<code>f</code>中需要完美转发的参数要是universal reference，例如<code>f(T&amp;&amp; a)</code>，切记完美转发是模板函数的universal reference（的编译器类型推导）和<code>std::forward</code>共同作用的结果，非泛型手动<code>std::move</code>一下就好了，用不着完美转发</li>
+<li>在模板类中使用<code>std::forward</code>对参数进行转发</li>
+</ol>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(T&amp;&amp; arg)</span> </span>&#123;</span><br><span class="line">    g(<span class="built_in">std</span>::forward&lt;T&gt;(arg));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>如果给<code>f</code>传左值、左值引用时，<code>T</code>推断为<code>int&amp;</code>, <code>arg</code>是<code>int&amp;</code>, 调用<code>forward&lt;int&amp;&gt;(xxx&amp; _Arg)</code>, <code>g</code>收到的是<code>int&amp;</code></li>
+<li>如果给<code>f</code>传<code>const</code>变量，<code>const</code>属性保留(<code>remove_reference_t</code>不会破坏<code>const</code>)</li>
+<li>如果给<code>f</code>传右值(例如<code>10</code>), <code>T</code>推断为<code>int</code>,  <code>arg</code>是<code>int&amp;&amp;</code>, 调用<code>forward&lt;int&amp;&amp;&gt;(xxx&amp; _Arg)</code>, <code>g</code>收到<code>int&amp;&amp;</code></li>
+<li>注意，如果给<code>f</code>传右值引用的变量，<code>T</code>推到得到的是<code>int&amp;</code>, <code>g</code>得到的是<code>int&amp;</code>，因为<strong>右值引用变量是左值</strong></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/31/hello-world/" rel="prev" title="Hello World">
+      <i class="fa fa-chevron-left"></i> Hello World
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%B3%E5%80%BC%E5%BC%95%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">右值引用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E8%AF%AD%E4%B9%89"><span class="nav-number">1.1.</span> <span class="nav-text">移动语义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Universal-references"><span class="nav-number">1.2.</span> <span class="nav-text">Universal references</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%8C%E7%BE%8E%E8%BD%AC%E5%8F%91"><span class="nav-number">1.3.</span> <span class="nav-text">完美转发</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="XiPotatonium"
+      src="/favicon/logo.jpg">
+  <p class="site-author-name" itemprop="name">XiPotatonium</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/XiPotatonium" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;XiPotatonium" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/se1056442025@gmail.com" title="E-Mail → se1056442025@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/XiPotatonium" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;XiPotatonium" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/XiPotatonium" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;XiPotatonium" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">XiPotatonium</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
