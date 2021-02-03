@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.3.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png">
+  <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="课程笔记：线性回归和逻辑斯蒂回归">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Regression">
+<meta property="og:url" content="http://example.com/2021/02/03/Regression/index.html">
+<meta property="og:site_name" content="Xi&#39;s Blog">
+<meta property="og:description" content="课程笔记：线性回归和逻辑斯蒂回归">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-02-03T11:36:17.000Z">
+<meta property="article:modified_time" content="2021-02-03T11:50:57.799Z">
+<meta property="article:author" content="XiPotatonium">
+<meta property="article:tag" content="Notes">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/02/03/Regression/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Regression | Xi's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Xi's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/02/03/Regression/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/favicon/logo.jpg">
+      <meta itemprop="name" content="XiPotatonium">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xi's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Regression
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-02-03 19:36:17 / 修改时间：19:50:57" itemprop="dateCreated datePublished" datetime="2021-02-03T19:36:17+08:00">2021-02-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Computer-Science/" itemprop="url" rel="index"><span itemprop="name">Computer Science</span></a>
+                </span>
+                  ，
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Computer-Science/Machine-Learning/" itemprop="url" rel="index"><span itemprop="name">Machine Learning</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>课程笔记：线性回归和逻辑斯蒂回归</p>
+<a id="more"></a>
+
+<h2 id="1-线性回归"><a href="#1-线性回归" class="headerlink" title="1. 线性回归"></a>1. 线性回归</h2><p>The cost function of linear regression is always a convex function, which means gradient descent can always find the global optimum wherever it starts. Because convex function has no local optima.</p>
+<ul>
+<li>Two solution to minimize J(theta) – Gradient descent and normal equations.</li>
+<li>Batch gradient descent uses all training data at each iteration. BGD. There are some other methods like SGD.</li>
+</ul>
+<h3 id="1-1-Feature-Scaling"><a href="#1-1-Feature-Scaling" class="headerlink" title="1.1 Feature Scaling"></a>1.1 Feature Scaling</h3><p>不同Feature取值范围的差异会导致参数的Loss function呈现细长的碗装，这回导致梯度下降时的来回震荡，进而导致收敛速度减慢。可以使用Feature Scaling对Feature进行映射，使其取值相似。一般使用如下缩放公式：</p>
+<p>$$<br>x_i:=\frac{x_i-\mu_i}{s_i}<br>$$</p>
+<p>$x_0$不需要缩放因为它总是1。如果所有特征值的最大值最小值的绝对值落在[1/3,3]这个范围内，那么就是个比较好的特征值，不需要缩放。当然这个范围并不是个绝对的值。</p>
+<h3 id="1-2-Learning-rate"><a href="#1-2-Learning-rate" class="headerlink" title="1.2 Learning rate"></a>1.2 Learning rate</h3><p>学习率会影响线性回归的收敛速度。理论可以证明，如果学习率设置合适，线性回归的代价函数必然随着迭代次数递减（注意，复杂的网络中这个结论往往不成立，复杂网络盲目调小学习率是不可取的，要取一个合适的值）。如果不是单调的，很大概率是学习率设置过大。一般3倍左右取一个学习率的值，如0.001，0.003，0.01……不断尝试，观察代价函数的曲线，找一个合适的学习率。</p>
+<h3 id="1-3-Feature-Design-amp-Polynomial-Regression"><a href="#1-3-Feature-Design-amp-Polynomial-Regression" class="headerlink" title="1.3 Feature Design &amp; Polynomial Regression"></a>1.3 Feature Design &amp; Polynomial Regression</h3><p>可以自己设计特征，不一定需要直接使用原始数据。例如有长和宽，可以设计一个面积，做单变量线性回归而不是双变量。同理，也可以设计多项式线性回归，如 $ y=\theta_0+\theta_1 * X_1+\theta_2 * X_2 $，其中$ X_1=x, X_2=x^2 $。这样可以用二次函数拟合。更好的特征设计可以更好地拟合样本，这会很大程度上改变收敛速度和最终结果。当然，使用特征设计时必须注意特征缩放。</p>
+<h3 id="1-4-Normal-Equation"><a href="#1-4-Normal-Equation" class="headerlink" title="1.4 Normal Equation"></a>1.4 Normal Equation</h3><p>可以用线性代数的方法快速找到最优的参数。其原理是对矩阵函数$Y=X\cdot\theta$求导，并将导数设为0后解方程组。在技术上可以直接使用公式</p>
+<p>$$<br>\theta=(X^T \cdot X)^{-1} \cdot X^T \cdot Y<br>$$</p>
+<table>
+<thead>
+<tr>
+<th>Linear Regression</th>
+<th>Normal Equation</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>多次迭代</td>
+<td>一步到位</td>
+</tr>
+<tr>
+<td>需要选择学习率</td>
+<td>不需要学习率</td>
+</tr>
+<tr>
+<td>对任意参数数目均有效</td>
+<td>参数数目比较大（10,000以上）时，矩阵的逆求解会很慢($\theta (N^3)$)</td>
+</tr>
+<tr>
+<td>对任意问题均有效</td>
+<td>在分类问题，逻辑斯蒂回归等问题中不起效</td>
+</tr>
+</tbody></table>
+<p>事实上正规方程中可能会遇到$X^T \cdot X$是奇异矩阵的情况，这种情况下可以用伪逆来代替逆，也可以正常运算。但是需要尽量避免这个情况。奇异矩阵产生的原因可能有如下两个方面：</p>
+<ol>
+<li>不同参数之间存在线性关系。需要消除多余的参数。</li>
+<li>样本数小于参数数目。需要合并参数，删除参数，或者使用regularization。</li>
+</ol>
+<h2 id="2-逻辑斯蒂回归"><a href="#2-逻辑斯蒂回归" class="headerlink" title="2. 逻辑斯蒂回归"></a>2. 逻辑斯蒂回归</h2><p>逻辑斯蒂回归在寻找decision boundary. 假如我们对一个问题有一个hypotheses $h_\theta(x)=g(\theta_0+\theta_1 * x_1+\theta_2 * x_2+\theta_3 * x^2_1+\theta4 * x^2_2)$ where $\theta=(-1,0,0,1,1)$ $g(z)=\frac{1}{1+e^{-z}}$(g(z) 是sigmoid function，也被叫做logistic function，逻辑斯蒂回归由此得名), 边界$x_1^2+x_2^2&gt;=1$是一个圆而非直线.</p>
+<p>一个隐藏层的MLP网络似乎就是在利用一层的N个Hidden neuron来编码$2^N$个One-hot vector</p>
+<h3 id="2-1-Cost-Function"><a href="#2-1-Cost-Function" class="headerlink" title="2.1 Cost Function"></a>2.1 Cost Function</h3><p>The cost function of logistic regression is:</p>
+<p>$$<br>Cost(h_\theta(x^{(i)},y^{(i)}))=\begin{cases}<br>-log(h_\theta(x^{(i)})) &amp; if\quad y^{(i)} == 1 \<br>-log(1-h_\theta(x^{(i)})) &amp; if\quad y^{(i)} == 0<br>\end{cases}<br>$$</p>
+<p>The choice of cost function is different from linear regression because if we apply the cost function of linear regression we will get a non-convex optimization problem and the cost function will have multiple local minimal. The root of the difference is that we use sigmoid function in cost function and sigmoid is not a linear function. It is provable that the new cost function in logistic regression is a convex function.</p>
+<p>我们可以用计算理论中原始递归的思路来简化上述函数:</p>
+<p>$$<br>Cost(h_\theta(x^{(i)},y^{(i)}))=-y^{(i)}log(h_\theta(x^{(i)}))-(1-y^{(i)})log(1-h_\theta(x^{(i)}))<br>$$</p>
+<p>这个式子在Pytorch中是NLLLoss，配合LogSoftmax就是CrossEntropyLoss。这个式子是从最大似然模型中得出的？</p>
+<p>利用微积分知识可以得</p>
+<p>$$<br>\frac{\partial J(\theta)}{\partial \theta_j}=<br>\frac{1}{m}\sum_i^mx_j^{(i)}(h_\theta(x^{(i)})-y^{(i)})<br>$$</p>
+<p>where</p>
+<p>$$<br>J(\theta)=\frac{1}{m}\sum_i^mCost^{(i)}(\theta)<br>$$</p>
+<p>Cost function的偏导数形式和线性回归高度类似，但是注意$h_\theta(x)$在这两个地方是完全不同的假设函数</p>
+<h3 id="2-2-One-versus-all"><a href="#2-2-One-versus-all" class="headerlink" title="2.2 One-versus-all"></a>2.2 One-versus-all</h3><p>对于多分类问题，可以将问题编码为one-hot coding，用逻辑斯蒂回归分别对one-hot code的每一位训练分类器。再预测的时候，只需要选择所有预测器结果最大的那个作为预测结果。</p>
+<h3 id="2-3-分类器"><a href="#2-3-分类器" class="headerlink" title="2.3 分类器"></a>2.3 分类器</h3><p>除了感知机模型，其实还有三方法。感知机是在寻找分类超平面</p>
+<h4 id="2-3-1-最小二乘法"><a href="#2-3-1-最小二乘法" class="headerlink" title="2.3.1 最小二乘法"></a>2.3.1 最小二乘法</h4><p>就是Norm equation</p>
+<h4 id="2-3-2-最大似然估计"><a href="#2-3-2-最大似然估计" class="headerlink" title="2.3.2 最大似然估计"></a>2.3.2 最大似然估计</h4><p>Cost是均方差。就是线性回归？分类依据是大于0和小于0.好像不完全是线性回归，有Basis function $\phi$ (哦这TM不就是线性回归中的特征设计吗？)</p>
+<p>但是训练方法不一样</p>
+<p>假设输出为$t=y(x, w)+\epsilon$，其中$\epsilon$为零均值高斯分布随机量，precision(方差倒数)为$\beta$。因此有（是假设了输出符合高斯分布？这TM是怎么一生二的？）</p>
+<p>$$<br>p(t|x,w,\beta)=N(t|y(x,w),\beta^{-1})<br>$$</p>
+<p>我们的优化目标是，最大似然，让期望最大</p>
+<p>$$<br>E[t|x]=\int tp(t|x)dt=y(x,w)<br>$$</p>
+<p>也就是说，再训练数据集X上，我们要下面公式的值最大</p>
+<p>$$<br>p(t|X,w,\beta)=\prod_{n=1}^NN(t_n|w^T\phi(x_n),\beta^{-1})<br>$$</p>
+<p>取对数，用最优化的思想求最值，nmd求出来w的最优值就是Norm equation，那个$\beta$也是很容易推导出来的</p>
+<p>$$<br>lnp(t|X,w,\beta)=\sum_{n=1}^NlnN(t_n|w^T\phi(x_n),\beta^{-1})=\frac{N}{2}ln\beta-\frac{N}{2}ln(2\pi)-\beta E_D(w)<br>$$</p>
+<p>$$<br>E_D(w)=\frac{1}{2}||t-\Phi w||^2<br>$$</p>
+<p>上面说的是最大似然估计，最小二乘法就是平方和回归。有结论，如果error符合均值为0的高斯分布，那么最大似然估计和最小二乘法结果是一样的。</p>
+<h4 id="2-3-3-Fisher’s-linear-discriminant"><a href="#2-3-3-Fisher’s-linear-discriminant" class="headerlink" title="2.3.3 Fisher’s linear discriminant"></a>2.3.3 Fisher’s linear discriminant</h4><p>让投影后同类数据距离最小，其实也就是找分类平面，因为投影方向就是超平面方向。Cost函数如下，要最大（类间均值差距最大，类内方差最小）</p>
+<p>$$<br>J(w)=\frac{(m_2-m_1)^2}{s_1^2+s_2^2}<br>$$</p>
+<p>类内协方差和类间协方差</p>
+<p>用拉格朗日乘子法求条件下的最优化</p>
+<h2 id="3-实验代码"><a href="#3-实验代码" class="headerlink" title="3. 实验代码"></a>3. 实验代码</h2><figure class="highlight python"><figcaption><span>linear.py</span><a href="/downloads/code/linear.py">view raw</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> datareader <span class="keyword">import</span> DataReader</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span>(<span class="params">self, path, nvar, iteration=<span class="number">1500</span>, lr=<span class="number">0.01</span></span>):</span></span><br><span class="line">        <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        :param path:</span></span><br><span class="line"><span class="string">        :param nvar: 变量的数目</span></span><br><span class="line"><span class="string">        :param iteration:</span></span><br><span class="line"><span class="string">        :param lr:</span></span><br><span class="line"><span class="string">        &quot;&quot;&quot;</span></span><br><span class="line">        data = DataReader.read(path, nvar + <span class="number">1</span>)  <span class="comment"># nvar + y</span></span><br><span class="line">        self.y = np.array([data[-<span class="number">1</span>]]).transpose()</span><br><span class="line">        self.x = np.array([np.ones((<span class="built_in">len</span>(self.y),))] \</span><br><span class="line">                          + [np.array(data[i]) <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(nvar)]).transpose()</span><br><span class="line">        self.theta = np.zeros((nvar + <span class="number">1</span>, <span class="number">1</span>))</span><br><span class="line">        self.iteration = iteration</span><br><span class="line">        self.lr = lr</span><br><span class="line">        self.nvar = nvar</span><br><span class="line"></span><br><span class="line">        self.mu = self.x.mean(<span class="number">0</span>)</span><br><span class="line">        self.s = self.x.<span class="built_in">max</span>(<span class="number">0</span>) - self.x.<span class="built_in">min</span>(<span class="number">0</span>)</span><br><span class="line">        self.mu[<span class="number">0</span>] = <span class="number">0</span></span><br><span class="line">        self.s[<span class="number">0</span>] = <span class="number">1</span>  <span class="comment"># for x_0: (1 - 0) / 1 = 1</span></span><br><span class="line">        self.feature_normed = <span class="literal">False</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">feature_norm</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.feature_normed = <span class="literal">True</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="built_in">len</span>(self.x)):</span><br><span class="line">            self.x[i] = (self.x[i] - self.mu) / self.s</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">linear_regression</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(self.iteration):</span><br><span class="line">            <span class="keyword">yield</span> self.cal_j_theta()</span><br><span class="line">            self.__step()</span><br><span class="line">        <span class="keyword">yield</span> self.cal_j_theta()</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">cal_j_theta</span>(<span class="params">self</span>):</span></span><br><span class="line">        deltay = self.predict(self.x) - self.y</span><br><span class="line">        <span class="keyword">return</span> (deltay * deltay).<span class="built_in">sum</span>() / <span class="number">2</span> / <span class="built_in">len</span>(self.y)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__step</span>(<span class="params">self</span>):</span></span><br><span class="line">        self.theta = self.theta - self.x.transpose().dot(self.predict(self.x) - self.y) * self.lr / <span class="built_in">len</span>(self.y)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">norm_equation</span>(<span class="params">self</span>):</span></span><br><span class="line">        xT = self.x.transpose()</span><br><span class="line">        self.theta = np.linalg.pinv(xT.dot(self.x)).dot(xT).dot(self.y)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">predict</span>(<span class="params">self, x</span>):</span></span><br><span class="line">        <span class="keyword">return</span> x.dot(self.theta)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    s = Solution(<span class="string">&quot;ex1data2.txt&quot;</span>, <span class="number">2</span>, lr=<span class="number">0.01</span>)</span><br><span class="line">    s.feature_norm()</span><br><span class="line">    j_thetas = np.array([i <span class="keyword">for</span> i <span class="keyword">in</span> s.linear_regression()])</span><br><span class="line">    print(<span class="string">&quot;J(theta) of linear regression = %f&quot;</span> % (j_thetas[-<span class="number">1</span>]))</span><br><span class="line">    x = np.linspace(<span class="number">0</span>, <span class="built_in">len</span>(j_thetas), <span class="built_in">len</span>(j_thetas))</span><br><span class="line">    plt.scatter(x, j_thetas)</span><br><span class="line">    plt.show()</span><br><span class="line">    <span class="comment"># s.norm_equation()</span></span><br><span class="line">    <span class="comment"># print(&quot;J(theta) of normal equation = %f&quot;%(s.cal_j_theta()))</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Notes/" rel="tag"># Notes</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/02/01/%E8%BF%8E%E6%98%A5%E8%8A%B1/" rel="prev" title="迎春花">
+      <i class="fa fa-chevron-left"></i> 迎春花
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92"><span class="nav-number">1.</span> <span class="nav-text">1. 线性回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-Feature-Scaling"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 Feature Scaling</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-Learning-rate"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 Learning rate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-Feature-Design-amp-Polynomial-Regression"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 Feature Design &amp; Polynomial Regression</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-4-Normal-Equation"><span class="nav-number">1.4.</span> <span class="nav-text">1.4 Normal Equation</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E9%80%BB%E8%BE%91%E6%96%AF%E8%92%82%E5%9B%9E%E5%BD%92"><span class="nav-number">2.</span> <span class="nav-text">2. 逻辑斯蒂回归</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#2-1-Cost-Function"><span class="nav-number">2.1.</span> <span class="nav-text">2.1 Cost Function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-2-One-versus-all"><span class="nav-number">2.2.</span> <span class="nav-text">2.2 One-versus-all</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-3-%E5%88%86%E7%B1%BB%E5%99%A8"><span class="nav-number">2.3.</span> <span class="nav-text">2.3 分类器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-1-%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95"><span class="nav-number">2.3.1.</span> <span class="nav-text">2.3.1 最小二乘法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-2-%E6%9C%80%E5%A4%A7%E4%BC%BC%E7%84%B6%E4%BC%B0%E8%AE%A1"><span class="nav-number">2.3.2.</span> <span class="nav-text">2.3.2 最大似然估计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3-3-Fisher%E2%80%99s-linear-discriminant"><span class="nav-number">2.3.3.</span> <span class="nav-text">2.3.3 Fisher’s linear discriminant</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-%E5%AE%9E%E9%AA%8C%E4%BB%A3%E7%A0%81"><span class="nav-number">3.</span> <span class="nav-text">3. 实验代码</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="XiPotatonium"
+      src="/favicon/logo.jpg">
+  <p class="site-author-name" itemprop="name">XiPotatonium</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/XiPotatonium" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;XiPotatonium" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/se1056442025@gmail.com" title="E-Mail → se1056442025@gmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/XiPotatonium" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;XiPotatonium" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://twitter.com/XiPotatonium" title="Twitter → https:&#x2F;&#x2F;twitter.com&#x2F;XiPotatonium" rel="noopener" target="_blank"><i class="fa fa-fw fa-twitter"></i>Twitter</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">XiPotatonium</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
